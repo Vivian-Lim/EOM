@@ -1,0 +1,8 @@
+streamlit
+ipython
+numpy
+pandas
+plotly
+pmdarima
+statsmodels
+pivottablejs
