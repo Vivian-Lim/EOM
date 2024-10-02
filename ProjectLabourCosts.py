@@ -56,11 +56,11 @@ st.sidebar.title('Interactive control sidebar')
 st.sidebar.subheader('View of data for selected month')
 
 # Graph 1: labour costs in S$ and Hr by Project/Functional Group
-selectYr = st.sidebar.selectbox('Year', [2019, 2020], key='1')
-if selectYr == int('2019'):
-    selectMth = st.sidebar.selectbox('Month', [8, 9, 10, 11, 12], key='2')
+selectYr = st.sidebar.selectbox('Year', [2023, 2024], key='1')
+if selectYr == int('2023'):
+    selectMth = st.sidebar.selectbox('Month', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], key='2')
 else:
-    selectMth = st.sidebar.selectbox('Month', [1, 2, 3, 4, 5], key='3')
+    selectMth = st.sidebar.selectbox('Month', [1, 2, 3, 4, 5, 6, 7, 8, 9], key='3')
 
 selectGraph = data.query('(YEAR == @selectYr) & (MONTH == @selectMth)')
 select = st.sidebar.selectbox('Sort by:', ['Functional Group', 'Project'], key='4')
@@ -141,16 +141,16 @@ dataset = dataset.set_index('ds')
 
 index = pd.date_range(start=dataset.index.min(), end=dataset.index.max(), freq='D')
 dataset = dataset.reindex(index)
-dataset = dataset.loc['2019-08-01':'2020-05-03']
+dataset = dataset.loc['2023-01-01':'2024-09-14']
 dataset['y'] = dataset['y'].fillna(0)
 
-start_date = '2020-02-15'
+start_date = '2023-02-15'
 train = dataset.loc[dataset.index < pd.to_datetime(start_date)]
 test = dataset.loc[dataset.index >= pd.to_datetime(start_date)]
 model = SARIMAX(train, order=(3, 0, 7))
 results = model.fit(disp=True)
 
-sarimax_prediction = results.predict(start='2020-02-15', end='2020-05-03', dynamic=False)
+sarimax_prediction = results.predict(start='2023-02-15', end='2023-05-03', dynamic=False)
 sarimax_prediction = pd.DataFrame(sarimax_prediction)
 
 trace1 = {
@@ -195,4 +195,3 @@ model = load_model()
 
 
 st.text(model.summary())
-
