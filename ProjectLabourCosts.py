@@ -47,15 +47,16 @@ st.write(
 st.title('Project labour costs')
 st.subheader('Scenario')
 st.write(
-    'A company named Color-Veg Pte. Ltd. would like to study the labour cost on projects. A timesheet system was created to collect time spent enter by each employee, grouped by functional group, for each project.')
-st.markdown('Employee number: 84')
-st.markdown('Functional group: 19')
-st.markdown('Project number: 33')
-st.markdown('Data collection period: 1st Aug 2019 - 3rd May 2020')
+    'A pharmaceutical research institute aims to analyze its labor costs associated with various research projects. To achieve this, a timesheet system was developed to collect the time spent by each employee. The data is grouped by functional groups and projects, allowing for insights into labor expenditures and resource allocation.')
+st.markdown('Employee number: 64')
+st.markdown('Functional group: 7')
+st.markdown('Project number: 17')
+st.markdown('Data collection period: 1st Jan 2023 - 14th Sep 2024')
 st.subheader('View of data for selected month')
 
 st.sidebar.title('Interactive control sidebar')
 st.sidebar.subheader('View of data for selected month')
+
 
 # Graph 1: labour costs in S$ and Hr by Project/Functional Group
 selectYr = st.sidebar.selectbox('Year', [2023, 2024], key='1')
