@@ -9,6 +9,8 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 import pmdarima as pm
 import warnings
+import itertools
+
 
 # Define all data
 input = pd.read_csv('./tsInput.csv')
@@ -68,8 +70,20 @@ if select == 'Functional Group':
     trace0 = go.Bar(x=selectGraph["GROUP"], y=selectGraph["SalaryCost"], name='S$', xaxis='x', yaxis='y', offsetgroup=1)
     trace1 = go.Bar(x=selectGraph["GROUP"], y=selectGraph["HOUR"], name='Hr', yaxis='y2', offsetgroup=2)
     dataTrace = [trace0, trace1]
-    layoutTrace = {'xaxis': {'title': 'Functional Group'}, 'yaxis': {'title': 'Salary Cost (S$)'},
-                   'yaxis2': {'title': 'Time Spent (Hr)', 'overlaying': 'y', 'side': 'right'}, 'height': 550}
+    layoutTrace = {
+        'xaxis': {'title': 'Functional Group'},
+        'yaxis': {'title': 'Salary Cost (S$)'},
+        'yaxis2': {'title': 'Time Spent (Hr)', 'overlaying': 'y', 'side': 'right'},
+        'height': 600,  # **Increased height for better spacing**
+        'legend': {
+            'x': 1.1,          # **Further moved legend away from the graph**
+            'y': 1,            # **Positioned legend at the top**
+            'xanchor': 'left',
+            'yanchor': 'top',
+            'orientation': 'v'  # **Vertical orientation**
+        },
+        'margin': {'r': 120}  # **Further increased right margin for y-axis2 label space**
+    }
     fig = go.Figure(data=dataTrace, layout=layoutTrace)
     st.plotly_chart(fig)
 
@@ -90,7 +104,16 @@ else:
                     offsetgroup=2)
     dataTrace = [trace0, trace1]
     layoutTrace = {'xaxis': {'title': 'Project'}, 'yaxis': {'title': 'Salary Cost (S$)'},
-                   'yaxis2': {'title': 'Time Spent (Hr)', 'overlaying': 'y', 'side': 'right'}, 'height': 550}
+                   'yaxis2': {'title': 'Time Spent (Hr)', 'overlaying': 'y', 'side': 'right'}, 'height': 600,
+                   'legend': {
+                        'x': 1.1,            # **Positioning the legend outside the graph on the right**
+                        'y': 1,               # **Set y position to be at the top of the graph**
+                        'xanchor': 'left',    # Anchor to the left
+                        'yanchor': 'top',     # Anchor to the top
+                        'orientation': 'v'     # **Vertical orientation**
+                    },
+                    'margin': {'r': 120}    # **Increase right margin to create space for y-axis2 label**
+                   }
     fig = go.Figure(data=dataTrace, layout=layoutTrace)
     st.plotly_chart(fig)
 
@@ -144,13 +167,13 @@ dataset = dataset.reindex(index)
 dataset = dataset.loc['2023-01-01':'2024-09-14']
 dataset['y'] = dataset['y'].fillna(0)
 
-start_date = '2023-02-15'
+start_date = '2023-12-30'
 train = dataset.loc[dataset.index < pd.to_datetime(start_date)]
 test = dataset.loc[dataset.index >= pd.to_datetime(start_date)]
 model = SARIMAX(train, order=(3, 0, 7))
 results = model.fit(disp=True)
 
-sarimax_prediction = results.predict(start='2023-02-15', end='2023-05-03', dynamic=False)
+sarimax_prediction = results.predict(start='2023-12-30', end='2024-09-13', dynamic=False)
 sarimax_prediction = pd.DataFrame(sarimax_prediction)
 
 trace1 = {
@@ -193,5 +216,5 @@ def load_model():
 model = load_model()
 
 
-
 st.text(model.summary())
+
