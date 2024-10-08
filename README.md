@@ -17,5 +17,8 @@ This project is an interactive web application built with **Streamlit** that all
 - **Web Framework**: Streamlit
 - **Data Visualization**: Plotly, Plotly Express
 - **Data Handling**: Pandas
-- **Deployment**: Streamlit 
+- **Deployment**: Streamlit
+
+### Streamlit App Link:
+https://n7quptg46ccpwf4jixr9nc.streamlit.app/
 
